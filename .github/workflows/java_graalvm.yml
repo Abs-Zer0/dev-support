@@ -16,11 +16,15 @@ jobs:
             with:
                 java-version: 20
                 distribution: 'graalvm'
-                components: 'native-image,icu4j,jipher,js,llvm-toolchain,nodejs,regex,visualvm'
+                components: 'icu4j,jipher,js,llvm-toolchain,nodejs,regex,visualvm'
                 github-token: ${{ secrets.GITHUB_TOKEN }}
-          - name: Linux List Components
+          - name: Linux List
             if: ${{ matrix.os == 'ubuntu-22.04' }}
-            run: gu list
+            run: |
+              echo JAVA_HOME = $JAVA_HOME
+              gu list
           - name: Windows List Components
             if: ${{ matrix.os == 'windows-2022' }}
-            run: cmd /c "gu list"
+            run: |
+              cmd /c "echo JAVA_HOME = %JAVA_HOME%"
+              cmd /c "gu list"
