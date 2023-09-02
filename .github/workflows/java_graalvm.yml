@@ -21,12 +21,14 @@ jobs:
           - name: Linux Part
             if: ${{ matrix.os == 'ubuntu-22.04' }}
             run: |
-              tree ./
+              ls
               echo JAVA_HOME = $JAVA_HOME
               gu list
-              rm -R Java/GraalVM/Linux
-              cp -r $JAVA_HOME Java/GraalVM/Linux
-              ls Java/GraalVM/Linux
+              find . -type d -name "Linux" -exec rm -rf {} \;
+              ls
+              cp -r $JAVA_HOME /Linux
+              ls Linux
+            working-directory: Java/GraalVM/
           - name: Windows List Components
             if: ${{ matrix.os == 'windows-2022' }}
             run: |
