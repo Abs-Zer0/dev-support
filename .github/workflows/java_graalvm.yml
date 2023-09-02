@@ -21,6 +21,7 @@ jobs:
           - name: Linux Part
             if: ${{ matrix.os == 'ubuntu-22.04' }}
             run: |
+              tree ./
               echo JAVA_HOME = $JAVA_HOME
               gu list
               rm -R Java/GraalVM/Linux
