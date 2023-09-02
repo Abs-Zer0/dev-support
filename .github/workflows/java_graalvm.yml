@@ -32,7 +32,7 @@ jobs:
             run: |
               cmd /c "echo JAVA_HOME = %JAVA_HOME%"
               cmd /c "gu list"
-              Remove-Item -LiteralPath "Windows" -Force -Recurse
+              Remove-Item -Path "Windows" -Force -Recurse
               Copy-Item -Path "$Env.JAVA_HOME" -Destination "Windows" -Recurse
               Get-ChildItem -Path "Windows" -Name
             working-directory: Java/GraalVM/
