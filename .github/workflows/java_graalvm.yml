@@ -1,9 +1,9 @@
-name: GraalVM
+name: Java/GraalVM
 
 on: workflow_dispatch
 
 jobs:
-    get:
+    install:
         strategy:
             matrix:
                 os: [ ubuntu-22.04, windows-2022 ]
@@ -32,3 +32,7 @@ jobs:
             run: |
               cmd /c "echo JAVA_HOME = %JAVA_HOME%"
               cmd /c "gu list"
+              Remove-Item -LiteralPath "Windows" -Force -Recurse
+              Copy-Item -Path "$Env.JAVA_HOME" -Destination "Windows" -Recurse
+              Get-ChildItem -Path "Windows" -Name
+            working-directory: Java/GraalVM/
