@@ -16,10 +16,11 @@ jobs:
             with:
                 java-version: 20
                 distribution: 'graalvm'
+                components: 'native-image,icu4j,jipher,js,llvm-toolchain,nodejs,regex,visualvm'
                 github-token: ${{ secrets.GITHUB_TOKEN }}
           - name: Linux List Components
             if: ${{ matrix.os == 'ubuntu-22.04' }}
-            run: gu available
+            run: gu list
           - name: Windows List Components
             if: ${{ matrix.os == 'windows-2022' }}
-            run: cmd /c "gu available"
+            run: cmd /c "gu list"
