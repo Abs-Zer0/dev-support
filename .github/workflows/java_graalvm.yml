@@ -41,8 +41,8 @@ jobs:
             with:
                 name: java_graalvm
                 path: |
-                  Linux
-                  Windows
+                  Java/GraalVM/Linux
+                  Java/GraalVM/Windows
                 if-no-files-found: ignore
           #- name: Setup Git user
           #  run: |
