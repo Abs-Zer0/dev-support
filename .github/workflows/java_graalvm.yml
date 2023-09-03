@@ -36,4 +36,12 @@ jobs:
               cmd /c "xcopy %JAVA_HOME% Windows /q /i /e"
               Get-ChildItem -Path "Windows" -Name
             working-directory: Java/GraalVM/
-            #Copy-Item -Path $Env.JAVA_HOME -Destination "Windows" -Recurse
+          - name: Setup Git user
+            run: |
+              git config --local user.name "GitHub Action"
+              git config --local user.email "action@github.com"
+          - name: Push GraalVM
+            run: |
+              git add -A
+              git commit -m "Update GraalVM"
+              git push
