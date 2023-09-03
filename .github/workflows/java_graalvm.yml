@@ -33,6 +33,6 @@ jobs:
               cmd /c "echo JAVA_HOME = %JAVA_HOME%"
               cmd /c "gu list"
               if (Test-Path -Path "Windows") { Remove-Item -Path "Windows" -Force -Recurse }
-              Copy-Item -Path Env.JAVA_HOME -Destination "Windows" -Recurse
+              Copy-Item -Path $Env.JAVA_HOME -Destination "Windows" -Recurse
               Get-ChildItem -Path "Windows" -Name
             working-directory: Java/GraalVM/
