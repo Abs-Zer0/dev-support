@@ -3,11 +3,9 @@ name: Java/GraalVM
 on: workflow_dispatch
 
 jobs:
-    install:
-        strategy:
-            matrix:
-                os: [ ubuntu-22.04, windows-2022 ]
-        runs-on: ${{ matrix.os }}
+    install-linux:
+        name: Get Linux
+        runs-on: ubuntu-22.04
         steps:
           - name: Checkout
             uses: actions/checkout@v3
@@ -18,38 +16,49 @@ jobs:
                 distribution: 'graalvm'
                 components: 'icu4j,jipher,js,llvm-toolchain,nodejs,regex,visualvm'
                 github-token: ${{ secrets.GITHUB_TOKEN }}
-          - name: Linux Part
-            if: ${{ matrix.os == 'ubuntu-22.04' }}
+          - name: List Components
             run: |
               echo JAVA_HOME = $JAVA_HOME
               gu list
-              find . -type d -name "Linux" -exec rm -rf {} \;
+            working-directory: Java/GraalVM/
+          - name: Copy GraalVM distribution
+            run: |
               cp -r $JAVA_HOME Linux
               ls Linux
             working-directory: Java/GraalVM/
-          - name: Windows List Components
-            if: ${{ matrix.os == 'windows-2022' }}
+          - name: Upload GraalVM distribution
+            uses: actions/upload-artifact@v3
+            with:
+                name: java_graalvm_linux
+                path: Java/GraalVM/Linux
+                if-no-files-found: ignore
+
+    install-windows:
+        name: Get Windows
+        runs-on: windows-2022
+        steps:
+          - name: Checkout
+            uses: actions/checkout@v3
+          - name: Setup GraalVM
+            uses: graalvm/setup-graalvm@v1
+            with:
+                java-version: 20
+                distribution: 'graalvm'
+                components: 'icu4j,jipher,js,llvm-toolchain,nodejs,regex,visualvm'
+                github-token: ${{ secrets.GITHUB_TOKEN }}
+          - name: List Components
             run: |
               cmd /c "echo JAVA_HOME = %JAVA_HOME%"
               cmd /c "gu list"
-              if (Test-Path -Path "Windows") { Remove-Item -Path "Windows" -Force -Recurse }
+            working-directory: Java/GraalVM/
+          - name: Copy GraalVM distribution
+            run: |
               cmd /c "xcopy %JAVA_HOME% Windows /q /i /e"
               Get-ChildItem -Path "Windows" -Name
             working-directory: Java/GraalVM/
           - name: Upload GraalVM distribution
             uses: actions/upload-artifact@v3
             with:
-                name: java_graalvm
-                path: |
-                  Java/GraalVM/Linux
-                  Java/GraalVM/Windows
+                name: java_graalvm_windows
+                path: Java/GraalVM/Windows
                 if-no-files-found: ignore
-          #- name: Setup Git user
-          #  run: |
-          #    git config --local user.name "GitHub Action"
-          #    git config --local user.email "action@github.com"
-          #- name: Push GraalVM
-          #  run: |
-          #    git add -A
-          #    git commit -m "Update GraalVM"
-          #    git push
