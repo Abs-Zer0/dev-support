@@ -31,9 +31,9 @@ jobs:
             if: ${{ matrix.os == 'windows-2022' }}
             run: |
               cmd /c "echo JAVA_HOME = %JAVA_HOME%"
-              echo JAVA_HOME = $Env.JAVA_HOME
               cmd /c "gu list"
               if (Test-Path -Path "Windows") { Remove-Item -Path "Windows" -Force -Recurse }
-              Copy-Item -Path $Env.JAVA_HOME -Destination "Windows" -Recurse
+              cmd /c "xcopy %JAVA_HOME% Windows /q /e"
               Get-ChildItem -Path "Windows" -Name
             working-directory: Java/GraalVM/
+            #Copy-Item -Path $Env.JAVA_HOME -Destination "Windows" -Recurse
