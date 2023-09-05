@@ -9,12 +9,31 @@ jobs:
         steps:
           - name: Checkout
             uses: actions/checkout@v3
-          - name: List wayland
+          - name: Install wayland
+            run: apt install libwayland-dev libxkbcommon-dev wayland-protocols extra-cmake-modules
+          - name: Clone glfw
+            run: git clone https://github.com/glfw/glfw.git
+            working-directory: temp
+          - name: Build
             run: |
-              apt search libwayland-dev
-              apt search libxkbcommon-dev
-              apt search wayland-protocols
-              apt search extra-cmake-modules
+              cmake -S . -B build -D GLFW_USE_WAYLAND=1 -D BUILD_SHARED_LIBS=ON -D GLFW_BUILD_EXAMPLES=OFF -D GLFW_BUILD_TESTS=OFF -D GLFW_BUILD_DOCS=OFF -D GLFW_VULKAN_STATIC=ON
+              cd build
+              make
+            working-directory: temp/glfw
+          - name: Copy files
+            run: |
+              find . -type d -name "C-C++/glfw/Linux" -exec rm -rf {} \;
+              cp -r temp/glfw/include C-C++/glfw/Linux/include
+              tree temp/glfw/build
+          - name: Git config
+            run: |
+              git config --local user.name "GitHub Action"
+              git config --local user.email "action@github.com"
+          - name: Get push
+            run: |
+              git add -A
+              git commit -m "Update glfw"
+              git push
 
     install-windows:
         name: Get Windows
