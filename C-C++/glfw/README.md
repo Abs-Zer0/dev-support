@@ -1,0 +1,1 @@
+# Directory for glfw shared library

@@ -1,0 +1,47 @@
+name: C-C++/glfw
+
+on: workflow_dispatch
+
+jobs:
+    install-linux:
+        name: Get Linux
+        runs-on: ubuntu-22.04
+        steps:
+          - name: Checkout
+            uses: actions/checkout@v3
+          - name: List wayland
+            run: |
+              apt search libwayland-dev
+              apt search libxkbcommon-dev
+              apt search wayland-protocols
+              apt search extra-cmake-modules
+
+    install-windows:
+        name: Get Windows
+        runs-on: windows-2022
+        steps:
+          - name: Checkout
+            uses: actions/checkout@v3
+          - name: Clone glfw
+            run: git clone https://github.com/glfw/glfw.git
+            working-directory: temp
+          - name: Build
+            run: |
+              cmake -S . -B build -D BUILD_SHARED_LIBS=ON -D GLFW_BUILD_EXAMPLES=OFF -D GLFW_BUILD_TESTS=OFF -D GLFW_BUILD_DOCS=OFF -D GLFW_VULKAN_STATIC=ON
+              cd build
+              msbuild GLFW.sln /p:Configuration=Release
+            working-directory: temp/glfw
+          - name: Copy files
+            run: |
+              if (Test-Path -Path "C-C++\glfw\Windows") { Remove-Item -Path "C-C++\glfw\Windows" -Force -Recurse }
+              cmd /c "xcopy temp\glfw\include C-C++\glfw\Windows\include /q /i /e"
+              cmd /c "copy /b temp\glfw\build\src\Release\*.dll C-C++\glfw\Windows"
+          - name: Git config
+            run: |
+              git config --local user.name "GitHub Action"
+              git config --local user.email "action@github.com"
+          - name: Get push
+            run: |
+              git add -A
+              git commit -m "Update glfw"
+              git push
