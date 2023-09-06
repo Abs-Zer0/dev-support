@@ -24,7 +24,7 @@ jobs:
             run: |
               find . -type d -name "C-C++/glfw/Linux" -exec rm -rf {} \;
               cp -r "temp/glfw/include" "C-C++/glfw/Linux/include"
-              cp -r "temp/glfw/build/src/*.so" "C-C++/glfw/Linux"
+              find "temp/glfw/build/src" -name "*.so" - exec cp "{}" "C-C++/glfw/Linux" \;
           - name: Git config
             run: |
               git config --local user.name "GitHub Action"
