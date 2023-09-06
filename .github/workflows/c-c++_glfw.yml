@@ -39,8 +39,8 @@ jobs:
     install-windows:
         name: Get Windows
         runs-on: windows-2022
-        #if: ${{ always() }}
-        #needs: install-linux
+        if: ${{ always() }}
+        needs: install-linux
         steps:
           - name: Checkout
             uses: actions/checkout@v3
