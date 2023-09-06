@@ -19,6 +19,7 @@ jobs:
               cmake -S . -B build -D GLFW_USE_WAYLAND=1 -D BUILD_SHARED_LIBS=ON -D GLFW_BUILD_EXAMPLES=OFF -D GLFW_BUILD_TESTS=OFF -D GLFW_BUILD_DOCS=OFF -D GLFW_VULKAN_STATIC=ON
               cd build
               make
+              tree src/
             working-directory: temp/glfw
           - name: Copy files
             run: |
