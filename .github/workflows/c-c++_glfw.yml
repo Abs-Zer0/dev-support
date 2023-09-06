@@ -23,6 +23,7 @@ jobs:
           - name: Copy files
             run: |
               find . -type d -name "C-C++/glfw/Linux" -exec rm -rf {} \;
+              mkdir "C-C++/glfw/Linux"
               cp -r "temp/glfw/include" "C-C++/glfw/Linux/include"
               tree "temp/glfw/build"
           - name: Git config
