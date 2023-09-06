@@ -25,7 +25,7 @@ jobs:
               find . -type d -name "C-C++/glfw/Linux" -exec rm -rf {} \;
               mkdir "C-C++/glfw/Linux"
               cp -r "temp/glfw/include" "C-C++/glfw/Linux/include"
-              tree "temp/glfw/build"
+              cp -L -t "temp/glfw/build/src/*.so" "C-C++/glfw/Linux"
           - name: Git config
             run: |
               git config --local user.name "GitHub Action"
@@ -39,6 +39,8 @@ jobs:
     install-windows:
         name: Get Windows
         runs-on: windows-2022
+        if: ${{ always() }}
+        needs: install-linux
         steps:
           - name: Checkout
             uses: actions/checkout@v3
