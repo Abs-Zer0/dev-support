@@ -10,7 +10,7 @@ jobs:
           - name: Checkout
             uses: actions/checkout@v3
           - name: Install wayland
-            run: sudo apt-get install libwayland-dev libxkbcommon-dev wayland-protocols extra-cmake-modules libxrandr-dev
+            run: sudo apt-get install xorg-dev libwayland-dev libxkbcommon-dev wayland-protocols extra-cmake-modules
           - name: Clone glfw
             run: git clone https://github.com/glfw/glfw.git
             working-directory: temp
