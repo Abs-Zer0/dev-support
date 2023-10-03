@@ -14,7 +14,7 @@ jobs:
             with:
                 java-version: 21
                 distribution: 'graalvm'
-                components: 'icu4j,jipher,js,llvm-toolchain,nodejs,regex,visualvm'
+                #components: 'icu4j,jipher,js,llvm-toolchain,nodejs,regex,visualvm'
                 github-token: ${{ secrets.GITHUB_TOKEN }}
           - name: List Components
             run: |
@@ -44,7 +44,7 @@ jobs:
             with:
                 java-version: 21
                 distribution: 'graalvm'
-                components: 'icu4j,jipher,js,llvm-toolchain,nodejs,regex,visualvm'
+                #components: 'icu4j,jipher,js,llvm-toolchain,nodejs,regex,visualvm'
                 github-token: ${{ secrets.GITHUB_TOKEN }}
           - name: List Components
             run: |
