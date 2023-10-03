@@ -12,7 +12,7 @@ jobs:
           - name: Setup GraalVM
             uses: graalvm/setup-graalvm@v1
             with:
-                java-version: 20
+                java-version: 21
                 distribution: 'graalvm'
                 components: 'icu4j,jipher,js,llvm-toolchain,nodejs,regex,visualvm'
                 github-token: ${{ secrets.GITHUB_TOKEN }}
@@ -42,7 +42,7 @@ jobs:
           - name: Setup GraalVM
             uses: graalvm/setup-graalvm@v1
             with:
-                java-version: 20
+                java-version: 21
                 distribution: 'graalvm'
                 components: 'icu4j,jipher,js,llvm-toolchain,nodejs,regex,visualvm'
                 github-token: ${{ secrets.GITHUB_TOKEN }}
